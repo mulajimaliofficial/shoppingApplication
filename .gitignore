@@ -2,3 +2,4 @@ env
 db.sqlite3
 shopping/__pycache__
 shoppingApp/__pycache__
+shoppingApp/migrations/__pycache__
