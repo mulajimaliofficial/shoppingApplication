@@ -25,10 +25,10 @@ class MyProductView(APIView):
         else:
 
             instance = Product.objects.all()
-            serializer = self.serializer_class(instance, many=True)
+            serializer = self.serializer_class(instance, many=True,context={"request":request})
             page = self.paginate_queryset(instance)
             if page is not None:
-                serializer = self.serializer_class(page, many=True)
+                serializer = self.serializer_class(page, many=True,context={"request":request})
                 return self.get_paginated_response(serializer.data)
         return Response({"message": "Records getting successfully.", "data": serializer.data}, status=status.HTTP_200_OK)
 
