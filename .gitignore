@@ -1,0 +1,4 @@
+env
+db.sqlite3
+shopping/__pycache__
+shoppingApp/__pycache__
