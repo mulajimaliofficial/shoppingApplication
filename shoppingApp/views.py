@@ -60,6 +60,7 @@ class MyProductView(APIView):
         return self.paginator.get_paginated_response(data)
 
     def post(self, request):
+        print("Rquest: ",request.data)
         data = request.data
         serializer = self.serializer_class(data=data)
         serializer.is_valid(raise_exception=True)
@@ -80,3 +81,4 @@ class MyProductView(APIView):
         instance = self.get_object(pk)
         instance.delete()
         return Response({"message": "Records deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+
