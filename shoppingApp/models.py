@@ -14,6 +14,7 @@ class Product(CommanTime):
     brand = models.CharField("Brand",blank=True,null=True,max_length=255)
     size = models.CharField("Size",blank=True,null=True,max_length=255)
     price = models.PositiveIntegerField("Price",blank=True,null=True)
+    image = models.ImageField("Image",upload_to ='productimage/%Y/%m/%d/%H/%M/%S')
     def __str__(self):
         return self.title
     class Meta:
