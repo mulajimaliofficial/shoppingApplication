@@ -15,6 +15,6 @@ class Product(CommanTime):
     size = models.CharField("Size",blank=True,null=True,max_length=255)
     price = models.PositiveIntegerField("Price",blank=True,null=True)
     def __str__(self):
-        return self.first_name +" " +self.last_name
+        return self.title
     class Meta:
         verbose_name_plural = "Product"

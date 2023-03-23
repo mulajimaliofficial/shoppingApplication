@@ -5,7 +5,7 @@ from rest_framework import status
 ## you can override page_size, max_page_size from url query params \
 ## to make it more dynamic
 class CustomPagination(PageNumberPagination):
-    page_size = 1 # default page size
+    page_size = 10 # default page size
     max_page_size = 1000 # default max page size
     page_size_query_param = 'page_size' # if you want to dynamic items per page from request you must have to add it 
       
