@@ -17,3 +17,5 @@
 ###### Now start the project server using below command.
 
     - $python manage.py runserver
+
+###### Here is the postman url [click](https://documenter.getpostman.com/view/4221951/2s93RUvY76)
