@@ -42,9 +42,12 @@ INSTALLED_APPS = [
 CUSTOM_APPS = [
     "shoppingApp",
     "rest_framework",
+    'rest_framework.authtoken',
     "corsheaders"
 ]
 INSTALLED_APPS += CUSTOM_APPS
+
+AUTH_USER_MODEL = 'shoppingApp.MyUser'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -137,3 +140,12 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+    ],
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ),
+}
