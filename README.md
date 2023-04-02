@@ -18,4 +18,4 @@
 
     - $python manage.py runserver
 
-###### Here is the postman url [click](https://documenter.getpostman.com/view/4221951/2s93RUvY76){:target="\_blank" rel="noopener"}
+###### Here is the postman url [click](https://documenter.getpostman.com/view/4221951/2s93RUvY76){:target="\_blank"}
