@@ -112,7 +112,7 @@ class MyProductView(APIView):
     def delete(self, request, pk):
         instance = self.get_object(pk)
         instance.delete()
-        return Response({"message": "Records deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "Records deleted successfully."}, status=status.HTTP_200_OK)
 
 
 
