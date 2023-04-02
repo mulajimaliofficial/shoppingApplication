@@ -52,7 +52,7 @@ class MyProductView(APIView):
     def get(self, request, pk=None):
         if pk:
             instance = self.get_object(pk)
-            serializer = self.serializer_class(instance)
+            serializer = self.serializer_class(instance,context={"request":request})
 
         else:
 
