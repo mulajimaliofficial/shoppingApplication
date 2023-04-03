@@ -6,7 +6,7 @@ from shoppingApp.models import *
 from shoppingApp.serializers import *
 from shopping.pagination import *
 from rest_framework import permissions
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.models import Token
 
 
@@ -35,6 +35,7 @@ class LoginView(APIView):
         if not user:
             return Response({'error': 'Invalid Credentials'}, status=status.HTTP_404_NOT_FOUND)
         token, _ = Token.objects.get_or_create(user=user)
+        login(request,user)
         return Response({'token': token.key, "message": "Login Successfully."}, status=status.HTTP_200_OK)
 
 
@@ -138,4 +139,53 @@ class UpdateProfile(APIView):
         if serializers.is_valid():
             serializers.save()
             return Response({"message": "Profile Updated", "data": serializers.data}, status=status.HTTP_200_OK)
-        return Response({"message": "Profile not updated"}, status=status.HTTP_200_OK)  
+        return Response({"message": "Profile not updated"}, status=status.HTTP_200_OK) 
+
+
+class ForgotPasswordView(APIView):
+    def post(self, request):
+        try:
+            _instance = MyUser.objects.get(email=request.data["email"])
+            return Response({"message": "Forgot password successfully.","email":_instance.email}, status=status.HTTP_200_OK) 
+        except Exception as e:
+            return Response({"message": "User does not exist."}, status=status.HTTP_400_BAD_REQUEST)  
+
+
+class SetPasswordView(APIView):
+    def post(self, request):
+        try:
+            _instance = MyUser.objects.get(email=request.data["email"])
+            if request.data["new_password"] == request.data["confirm_password"]:
+                _instance.set_password(request.data["new_password"])
+                _instance.save()
+                return Response({"message": "Password updated successfully."}, status=status.HTTP_200_OK)
+            else:
+                return Response({"message": "Confirm password does not matched.","email":_instance.email}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"message": "User does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self,request):
+        token = Token.objects.get(user=request.user).delete()
+        print("token :",token)
+        logout(request)
+        return Response({"message":"User logout successfully."}, status=status.HTTP_200_OK)
+
+
+class ChangePasswordView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request):
+        try:
+            _instance = MyUser.objects.get(email=request.user)
+            if _instance.check_password(request.data["old_password"]):
+                if request.data["new_password"] == request.data["confirm_password"]:
+                    _instance.set_password(request.data["new_password"])
+                    _instance.save()
+                    return Response({"message": "Password updated successfully."}, status=status.HTTP_200_OK)
+                else:
+                    return Response({"message": "Confirm password does not matched.","email":_instance.email}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({"message":"Incurrect old password."}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"message": "User does not exist."}, status=status.HTTP_400_BAD_REQUEST)
